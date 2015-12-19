@@ -1,0 +1,285 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Deploy Ladon web service with Gunicorn &#8211; Red Moses</title>
+<meta name="description" content="Using Gunicorn to deploy Ladon web service.">
+<meta name="keywords" content="deploy, gunicorn, ladon, python">
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/">
+<meta name="twitter:title" content="Deploy Ladon web service with Gunicorn">
+<meta name="twitter:description" content="Using Gunicorn to deploy Ladon web service.">
+<meta name="twitter:creator" content="@musanasrullah">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Deploy Ladon web service with Gunicorn">
+<meta property="og:description" content="Using Gunicorn to deploy Ladon web service.">
+<meta property="og:url" content="/deploy-Ladon-web-service-with-gunicorn/">
+<meta property="og:site_name" content="Red Moses">
+
+
+
+
+
+<link rel="canonical" href="/deploy-Ladon-web-service-with-gunicorn/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Red Moses Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<!-- Webfonts -->
+<link href="//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- Load Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.6.2.custom.min.js"></script>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+
+
+</head>
+
+<body id="post" >
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+<nav id="dl-menu" class="dl-menuwrapper" role="navigation">
+	<button class="dl-trigger">Open Menu</button>
+	<ul class="dl-menu">
+		<li><a href="/">Home</a></li>
+		<li>
+			<a href="#">About</a>
+			<ul class="dl-submenu">
+				<li>
+					<img src="/images/redmoses.jpg" alt="Red Moses photo" class="author-photo">
+					<h4>Red Moses</h4>
+					<p>DevOps engineer with a passion for coding.</p>
+				</li>
+				<li><a href="/about/"><span class="btn btn-inverse">Learn More</span></a></li>
+				<li>
+					<a href="mailto:musa@redmoses.me"><i class="fa fa-fw fa-envelope"></i> Email</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/musanasrullah"><i class="fa fa-fw fa-twitter"></i> Twitter</a>
+				</li>
+				<li>
+					<a href="https://facebook.com/musa.dhk"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+				</li>
+				<li>
+					<a href="https://google.com/+MusaNasrullah"><i class="fa fa-fw fa-google-plus"></i> Google+</a>
+				</li>
+				<li>
+					<a href="https://linkedin.com/in/redmoses"><i class="fa fa-fw fa-linkedin"></i> LinkedIn</a>
+				</li>
+				<li>
+					<a href="https://github.com/redmoses"><i class="fa fa-fw fa-github"></i> GitHub</a>
+				</li>
+				<li>
+					<a href="redmoses"><i class="fa fa-fw fa-stack-exchange"></i> Stackexchange</a>
+				</li>
+				
+				
+				
+			</ul><!-- /.dl-submenu -->
+		</li>
+		<li>
+			<a href="#">Posts</a>
+			<ul class="dl-submenu">
+				<li><a href="/posts/">All Posts</a></li>
+				<li><a href="/tags/">All Tags</a></li>
+			</ul>
+		</li>
+		
+	</ul><!-- /.dl-menu -->
+</nav><!-- /.dl-menuwrapper -->
+
+
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <header class="header-title">
+      <div class="header-title-wrap">
+        
+          <h1 class="entry-title"><a href="/deploy-Ladon-web-service-with-gunicorn/" rel="bookmark" title="Deploy Ladon web service with Gunicorn">Deploy Ladon web service with Gunicorn</a></h1>
+        
+        <h2><span class="entry-date date published"><time datetime="2014-07-02T00:00:00+06:00">July 02, 2014</time></span></h2>
+        
+        <p class="entry-reading-time">
+          <i class="fa fa-clock-o"></i>
+          
+Reading time ~2 minutes
+        </p><!-- /.entry-reading-time -->
+        
+      </div><!-- /.header-title-wrap -->
+    </header>
+    <div class="entry-content">
+      <p>Before starting I would like to mention that this article is not intended to teach Ladon or Gunicorn. It is rather for people who have worked their way around each of these libraries individually and are now seeking for a way to use them together.</p>
+
+<p>(You need to have Ladon and Gunicorn libraries installed in your environment)
+I am using the example given on Ladon’s website. Let this be our <strong>calculator.py</strong>:</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Calculator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c">#ladonize the method</span>
+    <span class="nd">@ladonize</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span></code></pre></div>
+
+<p>Since we are using Gunicorn for a custom application we would need to implement it from our application. To deploy this application with Gunicorn I used the <a href="http://docs.gunicorn.org/en/latest/custom.html">custom application</a> template given on Gunicorn’s documentation. Lets create our <b>server.py</b> which is going to be our WSGI handler.</p>
+
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">gunicorn.app.base</span>
+<span class="kn">from</span> <span class="nn">gunicorn.six</span> <span class="kn">import</span> <span class="n">iteritems</span>
+<span class="kn">from</span> <span class="nn">ladon.server.wsgi</span> <span class="kn">import</span> <span class="n">LadonWSGIApplication</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span>
+
+<span class="c"># The ladon wsgi application</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">LadonWSGIApplication</span><span class="p">(</span>
+              <span class="p">[</span><span class="s">&#39;calculator&#39;</span><span class="p">],</span>
+              <span class="p">[</span><span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))],</span>
+              <span class="n">catalog_name</span><span class="o">=</span><span class="s">&#39;My Ladon webservice catalog&#39;</span><span class="p">,</span>
+              <span class="n">catalog_desc</span><span class="o">=</span><span class="s">&#39;This is the root of my cool webservice catalog&#39;</span><span class="p">)</span>
+
+<span class="c"># Inherit from gunicorn base application class to create our application</span>
+<span class="k">class</span> <span class="nc">StandaloneApplication</span><span class="p">(</span><span class="n">gunicorn</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">BaseApplication</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="n">app</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StandaloneApplication</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="c"># Extract config options</span>
+    <span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
+                 <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">settings</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span>
+
+
+    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+        <span class="c"># Set the options</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="c"># For simplicity I am using these default configurations:</span>
+                <span class="c"># Localhost Ip(127.0.0.1), Default Port(5656) and Default no. of workers 4</span>
+                <span class="c"># You can take arguments from the command line for these attributes</span>
+                <span class="s">&#39;bind&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="s">&#39;5656&#39;</span><span class="p">),</span>
+                <span class="s">&#39;workers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="c"># Run the application</span>
+    <span class="n">StandaloneApplication</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></code></pre></div>
+
+<p>From <em>lines 9-13</em>, I am using LadonWSGIApplication to create a WSGI application from our calculator.py (this would be your actual code).</p>
+
+<p>From <em>lines 16-31</em>, I am just inheriting from the Gunicorn base application class to create my own custom application.</p>
+
+<p>And finally there’s the main method which runs our application. You must notice that I’m passing the “<em>application</em>” variable (<em>line 45</em>) I had previously declared on <em>line 9</em> with the some basic configurations like ip address and ports to bind to start the application.</p>
+
+<p>To run the application just use “python server.py” and it would start running on port 5656. To access the application visit <a href="http://localhost:5656">http://localhost:5656</a> from your browser.</p>
+
+      <footer class="entry-meta">
+        <span class="entry-tags"><a href="/tags/#deploy" title="Pages tagged deploy" class="tag"><span class="term">deploy</span></a><a href="/tags/#gunicorn" title="Pages tagged gunicorn" class="tag"><span class="term">gunicorn</span></a><a href="/tags/#ladon" title="Pages tagged ladon" class="tag"><span class="term">ladon</span></a><a href="/tags/#python" title="Pages tagged python" class="tag"><span class="term">python</span></a></span>
+        <span>Updated on <span class="entry-date date updated"><time datetime="2014-07-02">July 02, 2014</time></span></span>
+        <span class="author vcard"><span class="fn">Red Moses</span></span>
+        <div class="social-share">
+  <ul class="socialcount socialcount-small inline-list">
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=/deploy-Ladon-web-service-with-gunicorn/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=/deploy-Ladon-web-service-with-gunicorn/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=/deploy-Ladon-web-service-with-gunicorn/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+  </ul>
+</div><!-- /.social-share -->
+      </footer>
+    </div><!-- /.entry-content -->
+    <section id="disqus_thread"></section><!-- /#disqus_thread -->
+    <div class="read-more">
+  
+    <div class="read-more-header">
+      <a href="/transfer-existing-repositories-to-gitLab/" class="read-more-btn">Read More</a>
+    </div><!-- /.read-more-header -->
+    <div class="read-more-content">
+      <h3><a href="/transfer-existing-repositories-to-gitLab/" title="Transfer existing Repositories to GitLab">Transfer existing Repositories to GitLab</a></h3>
+      <p>Moving from Gerrit to Gitlab <a href="/transfer-existing-repositories-to-gitLab/">Continue reading</a></p>
+    </div><!-- /.read-more-content -->
+  
+  <div class="read-more-list">
+    
+      <div class="list-item">
+        <h4><a href="/background-image/" title="Post with a Background Image">Post with a Background Image</a></h4>
+        <span>Published on October 26, 2013</span>
+      </div><!-- /.list-item -->
+    
+      <div class="list-item">
+        <h4><a href="/code-highlighting-post/" title="Syntax Highlighting Post">Syntax Highlighting Post</a></h4>
+        <span>Published on August 16, 2013</span>
+      </div><!-- /.list-item -->
+    
+  </div><!-- /.read-more-list -->
+</div><!-- /.read-more -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo">
+    <span>&copy; 2015 Red Moses. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/hpstr-jekyll-theme/" rel="nofollow">HPSTR Theme</a>.</span>
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'redmoses'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
+
+</body>
+</html>
