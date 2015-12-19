@@ -157,58 +157,64 @@ Reading time ~2 minutes
 <p>(You need to have Ladon and Gunicorn libraries installed in your environment)
 I am using the example given on Ladon’s website. Let this be our <strong>calculator.py</strong>:</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Calculator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="c">#ladonize the method</span>
-    <span class="nd">@ladonize</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span></code></pre></div>
+<noscript><pre>from ladon.ladonizer import ladonize
+ 
+ 
+class Calculator(object):
+    #ladonize the method
+    @ladonize(int, int, rtype=int)
+    def add(self, a, b):
+        return a + b</pre></noscript>
+<script src="https://gist.github.com/redmoses/d82efea640348198871c.js"> </script>
 
 <p>Since we are using Gunicorn for a custom application we would need to implement it from our application. To deploy this application with Gunicorn I used the <a href="http://docs.gunicorn.org/en/latest/custom.html">custom application</a> template given on Gunicorn’s documentation. Lets create our <b>server.py</b> which is going to be our WSGI handler.</p>
 
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">multiprocessing</span>
-<span class="kn">import</span> <span class="nn">gunicorn.app.base</span>
-<span class="kn">from</span> <span class="nn">gunicorn.six</span> <span class="kn">import</span> <span class="n">iteritems</span>
-<span class="kn">from</span> <span class="nn">ladon.server.wsgi</span> <span class="kn">import</span> <span class="n">LadonWSGIApplication</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">dirname</span>
-
-<span class="c"># The ladon wsgi application</span>
-<span class="n">application</span> <span class="o">=</span> <span class="n">LadonWSGIApplication</span><span class="p">(</span>
-              <span class="p">[</span><span class="s">&#39;calculator&#39;</span><span class="p">],</span>
-              <span class="p">[</span><span class="n">dirname</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))],</span>
-              <span class="n">catalog_name</span><span class="o">=</span><span class="s">&#39;My Ladon webservice catalog&#39;</span><span class="p">,</span>
-              <span class="n">catalog_desc</span><span class="o">=</span><span class="s">&#39;This is the root of my cool webservice catalog&#39;</span><span class="p">)</span>
-
-<span class="c"># Inherit from gunicorn base application class to create our application</span>
-<span class="k">class</span> <span class="nc">StandaloneApplication</span><span class="p">(</span><span class="n">gunicorn</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">BaseApplication</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span> <span class="ow">or</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">application</span> <span class="o">=</span> <span class="n">app</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">StandaloneApplication</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-
-    <span class="c"># Extract config options</span>
-    <span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
-                 <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">settings</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">])</span>
-
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iteritems</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">value</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">application</span>
-
-
-    <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-        <span class="c"># Set the options</span>
-        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="c"># For simplicity I am using these default configurations:</span>
-                <span class="c"># Localhost Ip(127.0.0.1), Default Port(5656) and Default no. of workers 4</span>
-                <span class="c"># You can take arguments from the command line for these attributes</span>
-                <span class="s">&#39;bind&#39;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="s">&#39;5656&#39;</span><span class="p">),</span>
-                <span class="s">&#39;workers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="p">}</span>
-
-    <span class="c"># Run the application</span>
-    <span class="n">StandaloneApplication</span><span class="p">(</span><span class="n">application</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></code></pre></div>
+<noscript><pre>from __future__ import unicode_literals
+import multiprocessing
+import gunicorn.app.base
+from gunicorn.six import iteritems
+from ladon.server.wsgi import LadonWSGIApplication
+from os.path import abspath, dirname
+ 
+# The ladon wsgi application
+application = LadonWSGIApplication(
+              [&#39;calculator&#39;],
+              [dirname(abspath(__file__))],
+              catalog_name=&#39;My Ladon webservice catalog&#39;,
+              catalog_desc=&#39;This is the root of my cool webservice catalog&#39;)
+ 
+# Inherit from gunicorn base application class to create our application
+class StandaloneApplication(gunicorn.app.base.BaseApplication):
+    def __init__(self, app, options=None):
+        self.options = options or {}
+        self.application = app
+        super(StandaloneApplication, self).__init__()
+ 
+    # Extract config options
+    def load_config(self):
+        config = dict([(key, value) for key, value in iteritems(self.options)
+                 if key in self.cfg.settings and value is not None])
+ 
+        for key, value in iteritems(config):
+            self.cfg.set(key.lower(), value)
+ 
+    def load(self):
+        return self.application
+ 
+ 
+    if __name__ == &#39;__main__&#39;:
+        # Set the options
+        options = {
+                # For simplicity I am using these default configurations: 
+                # Localhost Ip(127.0.0.1), Default Port(5656) and Default no. of workers 4
+                # You can take arguments from the command line for these attributes
+                &#39;bind&#39;: &#39;%s:%s&#39; % (&#39;127.0.0.1&#39;, &#39;5656&#39;),
+                &#39;workers&#39;: 4,
+        }
+ 
+    # Run the application
+    StandaloneApplication(application, options).run()</pre></noscript>
+<script src="https://gist.github.com/redmoses/53baaa32ce76660fced7.js"> </script>
 
 <p>From <em>lines 9-13</em>, I am using LadonWSGIApplication to create a WSGI application from our calculator.py (this would be your actual code).</p>
 
