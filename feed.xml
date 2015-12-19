@@ -4,13 +4,57 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="/feed.xml" />
 <link rel="alternate" type="text/html" href="" />
-<updated>2015-12-19T23:26:00+06:00</updated>
+<updated>2015-12-19T23:36:08+06:00</updated>
 <id>/</id>
 <author>
   <name>Red Moses</name>
   <uri>/</uri>
   <email>musa@redmoses.me</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Deploy Python With Docker]]></title>
+ <link rel="alternate" type="text/html" href="/deploy-python-with-docker/" />
+  <id>/deploy-python-with-docker</id>
+  <published>2015-12-19T00:00:00+06:00</published>
+  <updated>2015-12-19T00:00:00+06:00</updated>
+  <author>
+    <name>Red Moses</name>
+    <uri></uri>
+    <email>musa@redmoses.me</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;The developer team in my office were using Gerrit Code Review along with git-web before migrating to GitLab. So we had to transfer all our existing repositories to GitLab. This tutorial can also be used for migrating from other git based issue tracking systems. The GitLab documentation says to put all your bare repositories, the “.git” directories, into this location - “/home/git/repositories” and then use the import command. But this doesn’t do the job, it only creates blank empty projects under the Admin group with no source files or previous issues. So to solve this, just follow the steps below -&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# You should change $newdir into something you prefer&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# The command is going to create a new directory inside the repositories directory&lt;/span&gt;
+
+sudo cp -R /usr/local/gerrit2/git /home/git/repositories/&lt;span class=&quot;nv&quot;&gt;$newdir&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Change ownership of the directory&lt;/span&gt;
+sudo chown -R git:git /home/git/repositories/&lt;span class=&quot;nv&quot;&gt;$newdir&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is for Gitlab versions 6 and less&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# And now you can run this command, provided by the GitLab Team&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Change to root user and go to GitLab&amp;#39;s directory&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /home/git/gitlab
+sudo su
+
+sudo -u git -H bundle &lt;span class=&quot;nb&quot;&gt;exec &lt;/span&gt;rake gitlab:import:repos &lt;span class=&quot;nv&quot;&gt;RAILS_ENV&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;production&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;For Gitlab versions 7 and onwards (That is, if you’ve installed Gitlab using the debian package)&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# Just run the following command&lt;/span&gt;
+sudo gitlab-rake gitlab:import:repos&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;When you run the above command GitLab is going to create a new group named $newdir (i.e., the directory’s name) and import the repositories perfectly. Now you can access GitLab with your admin account and access all the projects under the newly created group.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/deploy-python-with-docker/&quot;&gt;Deploy Python With Docker&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;&quot;&gt;Red Moses&lt;/a&gt; on December 19, 2015.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>

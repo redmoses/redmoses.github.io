@@ -138,6 +138,54 @@
   <header>
     
     <div class="entry-meta">
+      <span class="entry-date date published updated"><time datetime="2015-12-19T00:00:00+06:00"><a href="/deploy-python-with-docker/">December 19, 2015</a></time></span><span class="author vcard"><span class="fn"><a href="/about/" title="About Red Moses">Red Moses</a></span></span>
+      
+      <span class="entry-reading-time">
+        <i class="fa fa-clock-o"></i>
+        
+Reading time ~1 minute
+      </span><!-- /.entry-reading-time -->
+      
+    </div><!-- /.entry-meta -->
+    
+      <h1 class="entry-title"><a href="/deploy-python-with-docker/" rel="bookmark" title="Deploy Python With Docker" itemprop="url">Deploy Python With Docker</a></h1>
+    
+  </header>
+  <div class="entry-content">
+    <p>The developer team in my office were using Gerrit Code Review along with git-web before migrating to GitLab. So we had to transfer all our existing repositories to GitLab. This tutorial can also be used for migrating from other git based issue tracking systems. The GitLab documentation says to put all your bare repositories, the “.git” directories, into this location - “/home/git/repositories” and then use the import command. But this doesn’t do the job, it only creates blank empty projects under the Admin group with no source files or previous issues. So to solve this, just follow the steps below -</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># You should change $newdir into something you prefer</span>
+<span class="c"># The command is going to create a new directory inside the repositories directory</span>
+
+sudo cp -R /usr/local/gerrit2/git /home/git/repositories/<span class="nv">$newdir</span>
+
+<span class="c"># Change ownership of the directory</span>
+sudo chown -R git:git /home/git/repositories/<span class="nv">$newdir</span></code></pre></div>
+
+<p>This is for Gitlab versions 6 and less</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># And now you can run this command, provided by the GitLab Team</span>
+<span class="c"># Change to root user and go to GitLab&#39;s directory</span>
+
+<span class="nb">cd</span> /home/git/gitlab
+sudo su
+
+sudo -u git -H bundle <span class="nb">exec </span>rake gitlab:import:repos <span class="nv">RAILS_ENV</span><span class="o">=</span>production</code></pre></div>
+
+<p>For Gitlab versions 7 and onwards (That is, if you’ve installed Gitlab using the debian package)</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Just run the following command</span>
+sudo gitlab-rake gitlab:import:repos</code></pre></div>
+
+<p>When you run the above command GitLab is going to create a new group named $newdir (i.e., the directory’s name) and import the repositories perfectly. Now you can access GitLab with your admin account and access all the projects under the newly created group.</p>
+
+  </div><!-- /.entry-content -->
+</article><!-- /.hentry -->
+
+<article class="hentry">
+  <header>
+    
+    <div class="entry-meta">
       <span class="entry-date date published updated"><time datetime="2014-07-02T00:00:00+06:00"><a href="/deploy-Ladon-web-service-with-gunicorn/">July 02, 2014</a></time></span><span class="author vcard"><span class="fn"><a href="/about/" title="About Red Moses">Red Moses</a></span></span>
       
       <span class="entry-reading-time">
@@ -284,6 +332,18 @@ sudo gitlab-rake gitlab:import:repos</code></pre></div>
 <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="/assets/js/scripts.min.js"></script>
 
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46861903-1', 'auto');  
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+</script>
 
 
           
