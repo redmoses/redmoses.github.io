@@ -2,31 +2,31 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
 <title type="text">Red Moses</title>
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="//redmoses.me/feed.xml" />
-<link rel="alternate" type="text/html" href="//redmoses.me" />
-<updated>2015-12-20T18:08:28+06:00</updated>
-<id>//redmoses.me/</id>
+<link rel="self" type="application/atom+xml" href="/feed.xml" />
+<link rel="alternate" type="text/html" href="" />
+<updated>2015-12-20T19:49:44+06:00</updated>
+<id>/</id>
 <author>
   <name>Red Moses</name>
-  <uri>//redmoses.me/</uri>
+  <uri>/</uri>
   <email>musa@redmoses.me</email>
 </author>
 
 
 <entry>
   <title type="html"><![CDATA[Flask and Shell]]></title>
- <link rel="alternate" type="text/html" href="//redmoses.me/flask-and-shell/" />
-  <id>//redmoses.me/flask-and-shell</id>
+ <link rel="alternate" type="text/html" href="/flask-and-shell/" />
+  <id>/flask-and-shell</id>
   <published>2015-12-20T13:28:11+06:00</published>
   <updated>2015-12-20T13:28:11+06:00</updated>
   <author>
     <name>Red Moses</name>
-    <uri>//redmoses.me</uri>
+    <uri></uri>
     <email>musa@redmoses.me</email>
   </author>
   <content type="html">
     &lt;p&gt;&lt;a href=&quot;http://flask.pocoo.org/&quot;&gt;Flask&lt;/a&gt; is an amazingly lightweight framework, and to my opinion its a great option 
-for writing small simple applications in Python.&lt;/p&gt;
+for writing small simple applications in Python. &lt;!-- more --&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
 
@@ -246,29 +246,31 @@ sudo supervisorctl start stats&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 port 5000. To change this you may have a look at &lt;a href=&quot;http://stackoverflow.com/a/29079598/2894655&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;So you can find the application at &lt;a href=&quot;#&quot;&gt;http://SERVER_IP:5000&lt;/a&gt;. And the 
-the status updates should be available at &lt;a href=&quot;#&quot;&gt;http://SERVER_IP:5000/stats&lt;/a&gt;.&lt;/p&gt;
+the status updates should be available at &lt;a href=&quot;#&quot;&gt;http://SERVER_IP:5000/status/&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;I hope you’ve enjoyed the post and it was of help to you. Please feel free 
 to leave any comments below.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;//redmoses.me/flask-and-shell/&quot;&gt;Flask and Shell&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on December 20, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;/flask-and-shell/&quot;&gt;Flask and Shell&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;&quot;&gt;Red Moses&lt;/a&gt; on December 20, 2015.&lt;/p&gt;
   </content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Deploy Ladon web service with Gunicorn]]></title>
- <link rel="alternate" type="text/html" href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" />
-  <id>//redmoses.me/deploy-Ladon-web-service-with-gunicorn</id>
+ <link rel="alternate" type="text/html" href="/deploy-Ladon-web-service-with-gunicorn/" />
+  <id>/deploy-Ladon-web-service-with-gunicorn</id>
   <published>2014-07-02T00:00:00+06:00</published>
   <updated>2014-07-02T00:00:00+06:00</updated>
   <author>
     <name>Red Moses</name>
-    <uri>//redmoses.me</uri>
+    <uri></uri>
     <email>musa@redmoses.me</email>
   </author>
   <content type="html">
-    &lt;p&gt;Before starting I would like to mention that this article is not intended to teach Ladon or Gunicorn. It is rather for people who have worked their way around each of these libraries individually and are now seeking for a way to use them together.&lt;/p&gt;
+    &lt;p&gt;Before starting I would like to mention that this article is not intended to teach Ladon or Gunicorn. 
+It is rather for people who have worked their way around each of these libraries individually and are 
+now seeking for a way to use them together. &lt;!-- more --&gt;&lt;/p&gt;
 
 &lt;p&gt;(You need to have Ladon and Gunicorn libraries installed in your environment)
 I am using the example given on Ladon’s website. Let this be our &lt;strong&gt;calculator.py&lt;/strong&gt;:&lt;/p&gt;
@@ -340,24 +342,31 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
 
 &lt;p&gt;To run the application just use “python server.py” and it would start running on port 5656. To access the application visit &lt;a href=&quot;http://localhost:5656&quot;&gt;http://localhost:5656&lt;/a&gt; from your browser.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;//redmoses.me/deploy-Ladon-web-service-with-gunicorn/&quot;&gt;Deploy Ladon web service with Gunicorn&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on July 02, 2014.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;/deploy-Ladon-web-service-with-gunicorn/&quot;&gt;Deploy Ladon web service with Gunicorn&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;&quot;&gt;Red Moses&lt;/a&gt; on July 02, 2014.&lt;/p&gt;
   </content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Transfer existing Repositories to GitLab]]></title>
- <link rel="alternate" type="text/html" href="//redmoses.me/transfer-existing-repositories-to-gitLab/" />
-  <id>//redmoses.me/transfer-existing-repositories-to-gitLab</id>
+ <link rel="alternate" type="text/html" href="/transfer-existing-repositories-to-gitLab/" />
+  <id>/transfer-existing-repositories-to-gitLab</id>
   <published>2014-01-06T00:00:00+06:00</published>
   <updated>2014-01-06T00:00:00+06:00</updated>
   <author>
     <name>Red Moses</name>
-    <uri>//redmoses.me</uri>
+    <uri></uri>
     <email>musa@redmoses.me</email>
   </author>
   <content type="html">
-    &lt;p&gt;The developer team in my office were using Gerrit Code Review along with git-web before migrating to GitLab. So we had to transfer all our existing repositories to GitLab. This tutorial can also be used for migrating from other git based issue tracking systems. The GitLab documentation says to put all your bare repositories, the “.git” directories, into this location - “/home/git/repositories” and then use the import command. But this doesn’t do the job, it only creates blank empty projects under the Admin group with no source files or previous issues. So to solve this, just follow the steps below -&lt;/p&gt;
+    &lt;p&gt;The developer team in my office were using Gerrit Code Review along with git-web before migrating to GitLab. 
+So we had to transfer all our existing repositories to GitLab. This tutorial can also be used for migrating 
+from other git based issue tracking systems. &lt;!-- more --&gt;&lt;/p&gt;
+
+&lt;p&gt;The GitLab documentation says to put all your bare repositories, 
+the “.git” directories, into this location - “/home/git/repositories” and then use the import command. But 
+this doesn’t do the job, it only creates blank empty projects under the Admin group with no source files or 
+previous issues. So to solve this, just follow the steps below -&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# You should change $newdir into something you prefer&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# The command is going to create a new directory inside the repositories directory&lt;/span&gt;
@@ -384,7 +393,7 @@ sudo gitlab-rake gitlab:import:repos&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;When you run the above command GitLab is going to create a new group named $newdir (i.e., the directory’s name) and import the repositories perfectly. Now you can access GitLab with your admin account and access all the projects under the newly created group.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;//redmoses.me/transfer-existing-repositories-to-gitLab/&quot;&gt;Transfer existing Repositories to GitLab&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on January 06, 2014.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;/transfer-existing-repositories-to-gitLab/&quot;&gt;Transfer existing Repositories to GitLab&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;&quot;&gt;Red Moses&lt;/a&gt; on January 06, 2014.&lt;/p&gt;
   </content>
 </entry>
 
