@@ -4,7 +4,7 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="//redmoses.me/feed.xml" />
 <link rel="alternate" type="text/html" href="//redmoses.me" />
-<updated>2015-12-20T17:45:44+06:00</updated>
+<updated>2015-12-20T18:08:28+06:00</updated>
 <id>//redmoses.me/</id>
 <author>
   <name>Red Moses</name>
@@ -245,8 +245,8 @@ sudo supervisorctl start stats&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;As we have not defined any port for the application it will run on the default 
 port 5000. To change this you may have a look at &lt;a href=&quot;http://stackoverflow.com/a/29079598/2894655&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;So you can find the application at &lt;strong&gt;http://SERVER_IP:5000&lt;/strong&gt;. And the 
-the status updates should be available at &lt;strong&gt;http://SERVER_IP:5000/stats&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;So you can find the application at &lt;a href=&quot;#&quot;&gt;http://SERVER_IP:5000&lt;/a&gt;. And the 
+the status updates should be available at &lt;a href=&quot;#&quot;&gt;http://SERVER_IP:5000/stats&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;I hope you’ve enjoyed the post and it was of help to you. Please feel free 
 to leave any comments below.&lt;/p&gt;
