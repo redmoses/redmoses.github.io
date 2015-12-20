@@ -2,26 +2,269 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
 <title type="text">Red Moses</title>
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="/feed.xml" />
-<link rel="alternate" type="text/html" href="" />
-<updated>2015-12-20T02:49:06+06:00</updated>
-<id>/</id>
+<link rel="self" type="application/atom+xml" href="//redmoses.me/feed.xml" />
+<link rel="alternate" type="text/html" href="//redmoses.me" />
+<updated>2015-12-20T17:45:44+06:00</updated>
+<id>//redmoses.me/</id>
 <author>
   <name>Red Moses</name>
-  <uri>/</uri>
+  <uri>//redmoses.me/</uri>
   <email>musa@redmoses.me</email>
 </author>
 
 
 <entry>
+  <title type="html"><![CDATA[Flask and Shell]]></title>
+ <link rel="alternate" type="text/html" href="//redmoses.me/flask-and-shell/" />
+  <id>//redmoses.me/flask-and-shell</id>
+  <published>2015-12-20T13:28:11+06:00</published>
+  <updated>2015-12-20T13:28:11+06:00</updated>
+  <author>
+    <name>Red Moses</name>
+    <uri>//redmoses.me</uri>
+    <email>musa@redmoses.me</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;&lt;a href=&quot;http://flask.pocoo.org/&quot;&gt;Flask&lt;/a&gt; is an amazingly lightweight framework, and to my opinion its a great option 
+for writing small simple applications in Python.&lt;/p&gt;
+
+&lt;h2 id=&quot;background&quot;&gt;Background&lt;/h2&gt;
+
+&lt;p&gt;An application in my company performs some tasks and then updates a MySql database 
+accordingly. So to know how the application is progressing with the day’s tasks one 
+has to ssh into the application server and then run the appropriate queries using 
+mysql client. This is because the application only starts creating the reports once 
+all the tasks are finished.&lt;/p&gt;
+
+&lt;p&gt;My task was to figure out a way so that someone without any system administration 
+knowledge might also access this data securely without anyone’s help.&lt;/p&gt;
+
+&lt;h2 id=&quot;so-here-it-goes&quot;&gt;So here it goes…&lt;/h2&gt;
+
+&lt;p&gt;My plan was to create a flask application that will be accessible from any web browser. When 
+the correct path will be accessed the application will run some predefined shell command and 
+return the results to the browser. Now this output might be a sensitive information, so we 
+just can’t allow anyone to be able to access this. To implement a basic layer of security 
+I have used IP white listing i.e, only allowing certain IPs to acccess the application.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;I ran the below commands on Ubuntu 14.04 Trusty, 
+if you are using a different OS then your commands may vary accordingly&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;prerequisites&quot;&gt;Prerequisites&lt;/h3&gt;
+
+&lt;p&gt;To go along with this tutorial you must have the following installed in your system -&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Python3 &lt;strong&gt;(usually installed by default on Ubuntu 14.04)&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;virtualenv &lt;strong&gt;(sudo apt-get install python-virtualenv)&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;MySql Server 5.5+ &amp;amp; Client &lt;strong&gt;(sudo apt-get install mysql-server-5.5)&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Supervisor &lt;strong&gt;(sudo apt-get install supervisor)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;prepare-your-virtual-environment&quot;&gt;Prepare your virtual environment&lt;/h3&gt;
+
+&lt;p&gt;To prepare your virtual environment use the following commands -&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# go to your workspace directory&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/workspace/
+&lt;span class=&quot;c&quot;&gt;# create a virtualenv using python3&lt;/span&gt;
+virtualenv -p /usr/bin/python3 flaskshell
+&lt;span class=&quot;c&quot;&gt;# enter the virtualenv directory and perform the basic package installations and tasks&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;flaskshell
+&lt;span class=&quot;c&quot;&gt;# activate virtualenv&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;source &lt;/span&gt;bin/activate
+&lt;span class=&quot;c&quot;&gt;# install flask&lt;/span&gt;
+pip install flask
+&lt;span class=&quot;c&quot;&gt;# create src and logs directory&lt;/span&gt;
+mkdir src logs&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;prepare-a-sample-database&quot;&gt;Prepare a sample database&lt;/h3&gt;
+
+&lt;p&gt;As we would be running a mysql query we first need to prepare a sample database for our task. To create a database do 
+the following,&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;c&quot;&gt;# create the database &lt;/span&gt;
+mysql -u root -p -e &lt;span class=&quot;s2&quot;&gt;&amp;quot;CREATE DATABASE flasktest; GRANT ALL ON flasktest.* TO flaskuser@localhost IDENTIFIED BY &amp;#39;flask123&amp;#39;; FLUSH PRIVILEGES&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# create a sample table&lt;/span&gt;
+mysql -uflaskuser -pflask123 -e &lt;span class=&quot;s2&quot;&gt;&amp;quot;CREATE TABLE flasktest.tasks (task_id INT NOT NULL AUTO_INCREMENT, task_title VARCHAR(50), task_status VARCHAR(50), PRIMARY KEY (task_id));&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# insert some sample data&lt;/span&gt;
+mysql -uflaskuser -pflask123 -e &lt;span class=&quot;s2&quot;&gt;&amp;quot;INSERT INTO flasktest.tasks (task_title, task_status) VALUES (&amp;#39;Task 1&amp;#39;, &amp;#39;Success&amp;#39;);&amp;quot;&lt;/span&gt;
+mysql -uflaskuser -pflask123 -e &lt;span class=&quot;s2&quot;&gt;&amp;quot;INSERT INTO flasktest.tasks (task_title, task_status) VALUES (&amp;#39;Task 2&amp;#39;, &amp;#39;Pending&amp;#39;);&amp;quot;&lt;/span&gt;
+mysql -uflaskuser -pflask123 -e &lt;span class=&quot;s2&quot;&gt;&amp;quot;INSERT INTO flasktest.tasks (task_title, task_status) VALUES (&amp;#39;Task 3&amp;#39;, &amp;#39;Failed&amp;#39;);&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now to check whether the database and table creations all went okay do the following,&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;mysql -uflaskuser -pflask123 -e &lt;span class=&quot;s2&quot;&gt;&amp;quot;USE flasktest; SELECT COUNT(*) FROM tasks WHERE task_status=&amp;#39;Success&amp;#39;;&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# the above command should print this,&lt;/span&gt;
+
++----------+
+&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; COUNT&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;*&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;
++----------+
+&lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;        &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt;
++----------+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You may run the commands with where statements for ‘Pending’ and ‘Failed’ as well just to make sure. All the 
+queries should give the same result.&lt;/p&gt;
+
+&lt;h3 id=&quot;the-code&quot;&gt;The code&lt;/h3&gt;
+
+&lt;p&gt;Now create a file called &lt;strong&gt;app.py&lt;/strong&gt; inside the src directory,&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;touch ~/workspace/flaskshell/src/app.py&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Inside the file put in the below code -&lt;/p&gt;
+
+&lt;noscript&gt;&lt;pre&gt;from flask import Flask
+from flask import request
+import subprocess
+
+
+app = Flask(&amp;#39;flaskshell&amp;#39;)
+ip_whitelist = [&amp;#39;192.168.1.2&amp;#39;, &amp;#39;192.168.1.3&amp;#39;]
+query_success = &amp;quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&amp;#39;Success&amp;#39;&amp;quot;
+query_pending = &amp;quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&amp;#39;Pending&amp;#39;&amp;quot;
+query_failed = &amp;quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&amp;#39;Failed&amp;#39;&amp;quot;
+
+
+def valid_ip():
+    client = request.remote_addr
+    if client in ip_whitelist:
+        return True
+    else:
+        return False
+
+
+@app.route(&amp;#39;/status/&amp;#39;)
+def get_status():
+    if valid_ip():
+        command_success = &amp;quot;mysql -uflaskuser -pflask123 -e &amp;#39;{0}&amp;#39;&amp;quot;.format(
+            query_success)
+        command_pending = &amp;quot;mysql -uflaskuser -pflask123 -e &amp;#39;{0}&amp;#39;&amp;quot;.format(
+            query_pending)
+        command_failed = &amp;quot;mysql -uflaskuser -pflask123 -e &amp;#39;{0}&amp;#39;&amp;quot;.format(
+            query_failed)
+
+        try:
+            result_success = subprocess.check_output(
+                [command_success], shell=True)
+            result_pending = subprocess.check_output(
+                [command_pending], shell=True)
+            result_failed = subprocess.check_output(
+                [command_failed], shell=True)
+        except subprocess.CalledProcessError as e:
+            return &amp;quot;An error occurred while trying to fetch task status updates.&amp;quot;
+
+        return &amp;#39;Success %s, Pending %s, Failed %s&amp;#39; % (result_success, result_pending, result_failed)
+    else:
+        return &amp;quot;&amp;quot;&amp;quot;&amp;lt;title&amp;gt;404 Not Found&amp;lt;/title&amp;gt;
+	              &amp;lt;h1&amp;gt;Not Found&amp;lt;/h1&amp;gt;
+	              &amp;lt;p&amp;gt;The requested URL was not found on the server.
+	              If you entered the URL manually please check your
+	              spelling and try again.&amp;lt;/p&amp;gt;&amp;quot;&amp;quot;&amp;quot;, 404
+
+
+if __name__ == &amp;#39;__main__&amp;#39;:
+    app.run()
+&lt;/pre&gt;&lt;/noscript&gt;
+&lt;script src=&quot;https://gist.github.com/redmoses/347a2ad006a518f09fbc.js&quot;&gt; &lt;/script&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Line 7&lt;/strong&gt; » This is the array for the white listed ips. 
+You should replace the ips according to your needs. 
+You may put in virtually as many ips as you want in this array&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Lines 8-10&lt;/strong&gt; » I’m defining the queries here. You may change 
+the query according to your needs here.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Lines 13-18&lt;/strong&gt; » The valid_ip() method. It returns true if the 
+client’s ip belongs in the white list, otherwise it returns false.
+It gets the client ip using the request package from flask that is 
+defined on &lt;strong&gt;line 2&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Line 21&lt;/strong&gt; » Define the route for accessing the application&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Line 23&lt;/strong&gt; » Before processing the request check if the client’s
+ip belong to the white list. If not then show Flask’s default 404 
+page &lt;strong&gt;(lines 43-47)&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Lines 24-29&lt;/strong&gt; » Compose the shell commands using the queries 
+defined earlier&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Lines 32-37&lt;/strong&gt; » Try running the shell commands if it faces any error 
+trying then the method will return the error message &lt;strong&gt;(line 39)&lt;/strong&gt;. If the 
+execution is successful then it will return the results &lt;strong&gt;(line 41)&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;run-the-application-as-a-service&quot;&gt;Run the application as a service&lt;/h3&gt;
+
+&lt;p&gt;To run the application as a service I used supervisor. I’m not using it because 
+its the best process manager, rather I’m just used to it and it seems to do the 
+job.&lt;/p&gt;
+
+&lt;p&gt;Define a program on supervisor.&lt;/p&gt;
+
+&lt;p&gt;Create a new supervisor config file,&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo vim /etc/supervisor/conf.d/flaskshell.conf&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Copy and paste the following code in the file. I’m assuming you have put the 
+app in the location - &lt;strong&gt;/home/user/workspace/flaskshell&lt;/strong&gt; . You must change 
+this value accordingly.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;program:stats&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;directory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; /home/user/workspace/flaskshell/src
+&lt;span class=&quot;nb&quot;&gt;command&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; /home/user/workspace/flaskshell/bin/python app.py
+&lt;span class=&quot;nv&quot;&gt;redirect_stderr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;stdout_logfile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; /home/user/workspace/flaskshell/logs/out.log
+&lt;span class=&quot;nv&quot;&gt;stderr_logfile&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; /home/user/workspace/flaskshell/logs/error.log&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you should update the supervisor config and start the application&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;sudo supervisorctl update stats
+sudo supervisorctl start stats&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;accessing-the-application&quot;&gt;Accessing the application&lt;/h2&gt;
+
+&lt;p&gt;As we have not defined any port for the application it will run on the default 
+port 5000. To change this you may have a look at &lt;a href=&quot;http://stackoverflow.com/a/29079598/2894655&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So you can find the application at &lt;strong&gt;http://SERVER_IP:5000&lt;/strong&gt;. And the 
+the status updates should be available at &lt;strong&gt;http://SERVER_IP:5000/stats&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;I hope you’ve enjoyed the post and it was of help to you. Please feel free 
+to leave any comments below.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;//redmoses.me/flask-and-shell/&quot;&gt;Flask and Shell&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on December 20, 2015.&lt;/p&gt;
+  </content>
+</entry>
+
+
+<entry>
   <title type="html"><![CDATA[Deploy Ladon web service with Gunicorn]]></title>
- <link rel="alternate" type="text/html" href="/deploy-Ladon-web-service-with-gunicorn/" />
-  <id>/deploy-Ladon-web-service-with-gunicorn</id>
+ <link rel="alternate" type="text/html" href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" />
+  <id>//redmoses.me/deploy-Ladon-web-service-with-gunicorn</id>
   <published>2014-07-02T00:00:00+06:00</published>
   <updated>2014-07-02T00:00:00+06:00</updated>
   <author>
     <name>Red Moses</name>
-    <uri></uri>
+    <uri>//redmoses.me</uri>
     <email>musa@redmoses.me</email>
   </author>
   <content type="html">
@@ -97,20 +340,20 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
 
 &lt;p&gt;To run the application just use “python server.py” and it would start running on port 5656. To access the application visit &lt;a href=&quot;http://localhost:5656&quot;&gt;http://localhost:5656&lt;/a&gt; from your browser.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;/deploy-Ladon-web-service-with-gunicorn/&quot;&gt;Deploy Ladon web service with Gunicorn&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;&quot;&gt;Red Moses&lt;/a&gt; on July 02, 2014.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;//redmoses.me/deploy-Ladon-web-service-with-gunicorn/&quot;&gt;Deploy Ladon web service with Gunicorn&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on July 02, 2014.&lt;/p&gt;
   </content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Transfer existing Repositories to GitLab]]></title>
- <link rel="alternate" type="text/html" href="/transfer-existing-repositories-to-gitLab/" />
-  <id>/transfer-existing-repositories-to-gitLab</id>
+ <link rel="alternate" type="text/html" href="//redmoses.me/transfer-existing-repositories-to-gitLab/" />
+  <id>//redmoses.me/transfer-existing-repositories-to-gitLab</id>
   <published>2014-01-06T00:00:00+06:00</published>
   <updated>2014-01-06T00:00:00+06:00</updated>
   <author>
     <name>Red Moses</name>
-    <uri></uri>
+    <uri>//redmoses.me</uri>
     <email>musa@redmoses.me</email>
   </author>
   <content type="html">
@@ -141,7 +384,7 @@ sudo gitlab-rake gitlab:import:repos&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;When you run the above command GitLab is going to create a new group named $newdir (i.e., the directory’s name) and import the repositories perfectly. Now you can access GitLab with your admin account and access all the projects under the newly created group.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;/transfer-existing-repositories-to-gitLab/&quot;&gt;Transfer existing Repositories to GitLab&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;&quot;&gt;Red Moses&lt;/a&gt; on January 06, 2014.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;//redmoses.me/transfer-existing-repositories-to-gitLab/&quot;&gt;Transfer existing Repositories to GitLab&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on January 06, 2014.&lt;/p&gt;
   </content>
 </entry>
 
