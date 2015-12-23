@@ -4,45 +4,13 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="//redmoses.me/feed.xml" />
 <link rel="alternate" type="text/html" href="//redmoses.me" />
-<updated>2015-12-23T20:52:38+06:00</updated>
+<updated>2015-12-23T21:44:26+06:00</updated>
 <id>//redmoses.me/</id>
 <author>
   <name>Red Moses</name>
   <uri>//redmoses.me/</uri>
   <email>musa@redmoses.me</email>
 </author>
-
-
-<entry>
-  <title type="html"><![CDATA[Dockerizing a Python Application]]></title>
- <link rel="alternate" type="text/html" href="//redmoses.me/dockerizing-a-python-application/" />
-  <id>//redmoses.me/dockerizing-a-python-application</id>
-  <updated>2015-12-23T00:00:00-00:00</updated>
-  <published>2015-12-20T19:19:18+06:00</published>
-  
-  <author>
-    <name>Red Moses</name>
-    <uri>//redmoses.me</uri>
-    <email>musa@redmoses.me</email>
-  </author>
-  <content type="html">
-    &lt;p&gt;Life is amazing with Docker. We don’t need to run to Digital Ocean or any other tutorial sites 
-anymore to get started with something new. With docker its extremely easy to set up something 
-like a mail server or an infrastructure monitoring software like Sensu. &lt;!-- more --&gt;&lt;/p&gt;
-
-&lt;p&gt;With this it came to me that we should dockerize our custom inhouse applications as well. This just 
-makes things easier and gives you a feeling of an almost 1-click installer.&lt;/p&gt;
-
-&lt;p&gt;So I dove into github and looked at a few examples. I was really inspired by a dockerized mail server 
-project called &lt;a href=&quot;https://github.com/lava/dockermail&quot;&gt;dockermail&lt;/a&gt;. It showed me the beauty of Makefiles.&lt;/p&gt;
-
-&lt;p&gt;We will need a sample python application for this tutorial. To keep things simple I’ll just use the 
-application from on of my previous posts, &lt;a href=&quot;/flask-and-shell&quot;&gt;Flask and Shell&lt;/a&gt;. This application is also
-available on Github at this &lt;a href=&quot;https://github.com/redmoses/flaskshell&quot;&gt;location&lt;/a&gt;.&lt;/p&gt;
-
-    &lt;p&gt;&lt;a href=&quot;//redmoses.me/dockerizing-a-python-application/&quot;&gt;Dockerizing a Python Application&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on December 20, 2015.&lt;/p&gt;
-  </content>
-</entry>
 
 
 <entry>
@@ -149,59 +117,7 @@ queries should give the same result.&lt;/p&gt;
 
 &lt;p&gt;Inside the file put in the below code -&lt;/p&gt;
 
-&lt;noscript&gt;&lt;pre&gt;from flask import Flask
-from flask import request
-import subprocess
-
-
-app = Flask(&amp;#39;flaskshell&amp;#39;)
-ip_whitelist = [&amp;#39;192.168.1.2&amp;#39;, &amp;#39;192.168.1.3&amp;#39;]
-query_success = &amp;quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&amp;#39;Success&amp;#39;&amp;quot;
-query_pending = &amp;quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&amp;#39;Pending&amp;#39;&amp;quot;
-query_failed = &amp;quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&amp;#39;Failed&amp;#39;&amp;quot;
-
-
-def valid_ip():
-    client = request.remote_addr
-    if client in ip_whitelist:
-        return True
-    else:
-        return False
-
-
-@app.route(&amp;#39;/status/&amp;#39;)
-def get_status():
-    if valid_ip():
-        command_success = &amp;quot;mysql -uflaskuser -pflask123 -e &amp;#39;{0}&amp;#39;&amp;quot;.format(
-            query_success)
-        command_pending = &amp;quot;mysql -uflaskuser -pflask123 -e &amp;#39;{0}&amp;#39;&amp;quot;.format(
-            query_pending)
-        command_failed = &amp;quot;mysql -uflaskuser -pflask123 -e &amp;#39;{0}&amp;#39;&amp;quot;.format(
-            query_failed)
-
-        try:
-            result_success = subprocess.check_output(
-                [command_success], shell=True)
-            result_pending = subprocess.check_output(
-                [command_pending], shell=True)
-            result_failed = subprocess.check_output(
-                [command_failed], shell=True)
-        except subprocess.CalledProcessError as e:
-            return &amp;quot;An error occurred while trying to fetch task status updates.&amp;quot;
-
-        return &amp;#39;Success %s, Pending %s, Failed %s&amp;#39; % (result_success, result_pending, result_failed)
-    else:
-        return &amp;quot;&amp;quot;&amp;quot;&amp;lt;title&amp;gt;404 Not Found&amp;lt;/title&amp;gt;
-	              &amp;lt;h1&amp;gt;Not Found&amp;lt;/h1&amp;gt;
-	              &amp;lt;p&amp;gt;The requested URL was not found on the server.
-	              If you entered the URL manually please check your
-	              spelling and try again.&amp;lt;/p&amp;gt;&amp;quot;&amp;quot;&amp;quot;, 404
-
-
-if __name__ == &amp;#39;__main__&amp;#39;:
-    app.run()
-&lt;/pre&gt;&lt;/noscript&gt;
-&lt;script src=&quot;https://gist.github.com/redmoses/347a2ad006a518f09fbc.js&quot;&gt; &lt;/script&gt;
+&lt;p&gt;true&lt;script src=&quot;https://gist.github.com/redmoses/347a2ad006a518f09fbc.js&quot;&gt; &lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 

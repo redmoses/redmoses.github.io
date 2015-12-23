@@ -124,7 +124,7 @@
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~5 minutes
+Reading time ~4 minutes
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
@@ -222,59 +222,7 @@ queries should give the same result.</p>
 
 <p>Inside the file put in the below code -</p>
 
-<noscript><pre>from flask import Flask
-from flask import request
-import subprocess
-
-
-app = Flask(&#39;flaskshell&#39;)
-ip_whitelist = [&#39;192.168.1.2&#39;, &#39;192.168.1.3&#39;]
-query_success = &quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&#39;Success&#39;&quot;
-query_pending = &quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&#39;Pending&#39;&quot;
-query_failed = &quot;SELECT COUNT(*) FROM flasktest.tasks WHERE task_status=&#39;Failed&#39;&quot;
-
-
-def valid_ip():
-    client = request.remote_addr
-    if client in ip_whitelist:
-        return True
-    else:
-        return False
-
-
-@app.route(&#39;/status/&#39;)
-def get_status():
-    if valid_ip():
-        command_success = &quot;mysql -uflaskuser -pflask123 -e &#39;{0}&#39;&quot;.format(
-            query_success)
-        command_pending = &quot;mysql -uflaskuser -pflask123 -e &#39;{0}&#39;&quot;.format(
-            query_pending)
-        command_failed = &quot;mysql -uflaskuser -pflask123 -e &#39;{0}&#39;&quot;.format(
-            query_failed)
-
-        try:
-            result_success = subprocess.check_output(
-                [command_success], shell=True)
-            result_pending = subprocess.check_output(
-                [command_pending], shell=True)
-            result_failed = subprocess.check_output(
-                [command_failed], shell=True)
-        except subprocess.CalledProcessError as e:
-            return &quot;An error occurred while trying to fetch task status updates.&quot;
-
-        return &#39;Success %s, Pending %s, Failed %s&#39; % (result_success, result_pending, result_failed)
-    else:
-        return &quot;&quot;&quot;&lt;title&gt;404 Not Found&lt;/title&gt;
-	              &lt;h1&gt;Not Found&lt;/h1&gt;
-	              &lt;p&gt;The requested URL was not found on the server.
-	              If you entered the URL manually please check your
-	              spelling and try again.&lt;/p&gt;&quot;&quot;&quot;, 404
-
-
-if __name__ == &#39;__main__&#39;:
-    app.run()
-</pre></noscript>
-<script src="https://gist.github.com/redmoses/347a2ad006a518f09fbc.js"> </script>
+<p>true<script src="https://gist.github.com/redmoses/347a2ad006a518f09fbc.js"> </script></p>
 
 <p><br /></p>
 
@@ -375,16 +323,11 @@ to leave any comments below.</p>
       <a href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="//redmoses.me/dockerizing-a-python-application/" title="Dockerizing a Python Application">Dockerizing a Python Application</a></h3>
-      <p>Using docker to deploy a python application <a href="//redmoses.me/dockerizing-a-python-application/">Continue reading</a></p>
+      <h3><a href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" title="Deploy Ladon web service with Gunicorn">Deploy Ladon web service with Gunicorn</a></h3>
+      <p>Using Gunicorn to deploy Ladon web service. <a href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
-    
-      <div class="list-item">
-        <h4><a href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" title="Deploy Ladon web service with Gunicorn">Deploy Ladon web service with Gunicorn</a></h4>
-        <span>Published on July 02, 2014</span>
-      </div><!-- /.list-item -->
     
       <div class="list-item">
         <h4><a href="//redmoses.me/transfer-existing-repositories-to-gitLab/" title="Transfer existing Repositories to GitLab">Transfer existing Repositories to GitLab</a></h4>
