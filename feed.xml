@@ -4,13 +4,45 @@
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
 <link rel="self" type="application/atom+xml" href="//redmoses.me/feed.xml" />
 <link rel="alternate" type="text/html" href="//redmoses.me" />
-<updated>2015-12-20T20:07:19+06:00</updated>
+<updated>2015-12-23T20:52:38+06:00</updated>
 <id>//redmoses.me/</id>
 <author>
   <name>Red Moses</name>
   <uri>//redmoses.me/</uri>
   <email>musa@redmoses.me</email>
 </author>
+
+
+<entry>
+  <title type="html"><![CDATA[Dockerizing a Python Application]]></title>
+ <link rel="alternate" type="text/html" href="//redmoses.me/dockerizing-a-python-application/" />
+  <id>//redmoses.me/dockerizing-a-python-application</id>
+  <updated>2015-12-23T00:00:00-00:00</updated>
+  <published>2015-12-20T19:19:18+06:00</published>
+  
+  <author>
+    <name>Red Moses</name>
+    <uri>//redmoses.me</uri>
+    <email>musa@redmoses.me</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Life is amazing with Docker. We don’t need to run to Digital Ocean or any other tutorial sites 
+anymore to get started with something new. With docker its extremely easy to set up something 
+like a mail server or an infrastructure monitoring software like Sensu. &lt;!-- more --&gt;&lt;/p&gt;
+
+&lt;p&gt;With this it came to me that we should dockerize our custom inhouse applications as well. This just 
+makes things easier and gives you a feeling of an almost 1-click installer.&lt;/p&gt;
+
+&lt;p&gt;So I dove into github and looked at a few examples. I was really inspired by a dockerized mail server 
+project called &lt;a href=&quot;https://github.com/lava/dockermail&quot;&gt;dockermail&lt;/a&gt;. It showed me the beauty of Makefiles.&lt;/p&gt;
+
+&lt;p&gt;We will need a sample python application for this tutorial. To keep things simple I’ll just use the 
+application from on of my previous posts, &lt;a href=&quot;/flask-and-shell&quot;&gt;Flask and Shell&lt;/a&gt;. This application is also
+available on Github at this &lt;a href=&quot;https://github.com/redmoses/flaskshell&quot;&gt;location&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;//redmoses.me/dockerizing-a-python-application/&quot;&gt;Dockerizing a Python Application&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on December 20, 2015.&lt;/p&gt;
+  </content>
+</entry>
 
 
 <entry>

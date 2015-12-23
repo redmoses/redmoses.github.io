@@ -5,30 +5,30 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Deploy Ladon web service with Gunicorn &#8211; Red Moses</title>
-<meta name="description" content="Using Gunicorn to deploy Ladon web service.">
-<meta name="keywords" content="deploy, gunicorn, ladon, python">
+<title>Dockerizing a Python Application &#8211; Red Moses</title>
+<meta name="description" content="Using docker to deploy a python application">
+<meta name="keywords" content="docker, python, flask, mysql">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="//redmoses.me/images/">
-<meta name="twitter:title" content="Deploy Ladon web service with Gunicorn">
-<meta name="twitter:description" content="Using Gunicorn to deploy Ladon web service.">
+<meta name="twitter:title" content="Dockerizing a Python Application">
+<meta name="twitter:description" content="Using docker to deploy a python application">
 <meta name="twitter:creator" content="@musanasrullah">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Deploy Ladon web service with Gunicorn">
-<meta property="og:description" content="Using Gunicorn to deploy Ladon web service.">
-<meta property="og:url" content="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/">
+<meta property="og:title" content="Dockerizing a Python Application">
+<meta property="og:description" content="Using docker to deploy a python application">
+<meta property="og:url" content="//redmoses.me/dockerizing-a-python-application/">
 <meta property="og:site_name" content="Red Moses">
 
 
 
 
 
-<link rel="canonical" href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/">
+<link rel="canonical" href="//redmoses.me/dockerizing-a-python-application/">
 <link href="//redmoses.me/feed.xml" type="application/atom+xml" rel="alternate" title="Red Moses Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -117,101 +117,42 @@
     <header class="header-title">
       <div class="header-title-wrap">
         
-          <h1 class="entry-title"><a href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" rel="bookmark" title="Deploy Ladon web service with Gunicorn">Deploy Ladon web service with Gunicorn</a></h1>
+          <h1 class="entry-title"><a href="//redmoses.me/dockerizing-a-python-application/" rel="bookmark" title="Dockerizing a Python Application">Dockerizing a Python Application</a></h1>
         
-        <h2><span class="entry-date date published"><time datetime="2014-07-02T00:00:00+06:00">July 02, 2014</time></span></h2>
+        <h2><span class="entry-date date published"><time datetime="2015-12-20T19:19:18+06:00">December 20, 2015</time></span></h2>
         
         <p class="entry-reading-time">
           <i class="fa fa-clock-o"></i>
           
-Reading time ~2 minutes
+Reading time ~1 minute
         </p><!-- /.entry-reading-time -->
         
       </div><!-- /.header-title-wrap -->
     </header>
     <div class="entry-content">
-      <p>Before starting I would like to mention that this article is not intended to teach Ladon or Gunicorn. 
-It is rather for people who have worked their way around each of these libraries individually and are 
-now seeking for a way to use them together. <!-- more --></p>
+      <p>Life is amazing with Docker. We don’t need to run to Digital Ocean or any other tutorial sites 
+anymore to get started with something new. With docker its extremely easy to set up something 
+like a mail server or an infrastructure monitoring software like Sensu. <!-- more --></p>
 
-<p>(You need to have Ladon and Gunicorn libraries installed in your environment)
-I am using the example given on Ladon’s website. Let this be our <strong>calculator.py</strong>:</p>
+<p>With this it came to me that we should dockerize our custom inhouse applications as well. This just 
+makes things easier and gives you a feeling of an almost 1-click installer.</p>
 
-<noscript><pre>from ladon.ladonizer import ladonize
- 
- 
-class Calculator(object):
-    #ladonize the method
-    @ladonize(int, int, rtype=int)
-    def add(self, a, b):
-        return a + b</pre></noscript>
-<script src="https://gist.github.com/redmoses/d82efea640348198871c.js"> </script>
+<p>So I dove into github and looked at a few examples. I was really inspired by a dockerized mail server 
+project called <a href="https://github.com/lava/dockermail">dockermail</a>. It showed me the beauty of Makefiles.</p>
 
-<p>Since we are using Gunicorn for a custom application we would need to implement it from our application. To deploy this application with Gunicorn I used the <a href="http://docs.gunicorn.org/en/latest/custom.html">custom application</a> template given on Gunicorn’s documentation. Lets create our <b>server.py</b> which is going to be our WSGI handler.</p>
-
-<noscript><pre>from __future__ import unicode_literals
-import multiprocessing
-import gunicorn.app.base
-from gunicorn.six import iteritems
-from ladon.server.wsgi import LadonWSGIApplication
-from os.path import abspath, dirname
- 
-# The ladon wsgi application
-application = LadonWSGIApplication(
-              [&#39;calculator&#39;],
-              [dirname(abspath(__file__))],
-              catalog_name=&#39;My Ladon webservice catalog&#39;,
-              catalog_desc=&#39;This is the root of my cool webservice catalog&#39;)
- 
-# Inherit from gunicorn base application class to create our application
-class StandaloneApplication(gunicorn.app.base.BaseApplication):
-    def __init__(self, app, options=None):
-        self.options = options or {}
-        self.application = app
-        super(StandaloneApplication, self).__init__()
- 
-    # Extract config options
-    def load_config(self):
-        config = dict([(key, value) for key, value in iteritems(self.options)
-                 if key in self.cfg.settings and value is not None])
- 
-        for key, value in iteritems(config):
-            self.cfg.set(key.lower(), value)
- 
-    def load(self):
-        return self.application
- 
- 
-    if __name__ == &#39;__main__&#39;:
-        # Set the options
-        options = {
-                # For simplicity I am using these default configurations: 
-                # Localhost Ip(127.0.0.1), Default Port(5656) and Default no. of workers 4
-                # You can take arguments from the command line for these attributes
-                &#39;bind&#39;: &#39;%s:%s&#39; % (&#39;127.0.0.1&#39;, &#39;5656&#39;),
-                &#39;workers&#39;: 4,
-        }
- 
-    # Run the application
-    StandaloneApplication(application, options).run()</pre></noscript>
-<script src="https://gist.github.com/redmoses/53baaa32ce76660fced7.js"> </script>
-
-<p>From <em>lines 9-13</em>, I am using LadonWSGIApplication to create a WSGI application from our calculator.py (this would be your actual code).</p>
-
-<p>From <em>lines 16-31</em>, I am just inheriting from the Gunicorn base application class to create my own custom application.</p>
-
-<p>And finally there’s the main method which runs our application. You must notice that I’m passing the “<em>application</em>” variable (<em>line 45</em>) I had previously declared on <em>line 9</em> with the some basic configurations like ip address and ports to bind to start the application.</p>
-
-<p>To run the application just use “python server.py” and it would start running on port 5656. To access the application visit <a href="http://localhost:5656">http://localhost:5656</a> from your browser.</p>
+<p>We will need a sample python application for this tutorial. To keep things simple I’ll just use the 
+application from on of my previous posts, <a href="/flask-and-shell">Flask and Shell</a>. This application is also
+available on Github at this <a href="https://github.com/redmoses/flaskshell">location</a>.</p>
 
       <footer class="entry-meta">
-        <span class="entry-tags"><a href="//redmoses.me/tags/#deploy" title="Pages tagged deploy" class="tag"><span class="term">deploy</span></a><a href="//redmoses.me/tags/#gunicorn" title="Pages tagged gunicorn" class="tag"><span class="term">gunicorn</span></a><a href="//redmoses.me/tags/#ladon" title="Pages tagged ladon" class="tag"><span class="term">ladon</span></a><a href="//redmoses.me/tags/#python" title="Pages tagged python" class="tag"><span class="term">python</span></a></span>
-        
+        <span class="entry-tags"><a href="//redmoses.me/tags/#docker" title="Pages tagged docker" class="tag"><span class="term">docker</span></a><a href="//redmoses.me/tags/#python" title="Pages tagged python" class="tag"><span class="term">python</span></a><a href="//redmoses.me/tags/#flask" title="Pages tagged flask" class="tag"><span class="term">flask</span></a><a href="//redmoses.me/tags/#mysql" title="Pages tagged mysql" class="tag"><span class="term">mysql</span></a></span>
+        <span>Updated on <span class="entry-date date updated"><time datetime="2015-12-23">December 23, 2015</time></span></span>
+        <span class="author vcard"><span class="fn">Red Moses</span></span>
         <div class="social-share">
   <ul class="socialcount socialcount-small inline-list">
-    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
-    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
-    <li class="googleplus"><a href="https://plus.google.com/share?url=//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
+    <li class="facebook"><a href="https://www.facebook.com/sharer/sharer.php?u=//redmoses.me/dockerizing-a-python-application/" title="Share on Facebook"><span class="count"><i class="fa fa-facebook-square"></i> Like</span></a></li>
+    <li class="twitter"><a href="https://twitter.com/intent/tweet?text=//redmoses.me/dockerizing-a-python-application/" title="Share on Twitter"><span class="count"><i class="fa fa-twitter-square"></i> Tweet</span></a></li>
+    <li class="googleplus"><a href="https://plus.google.com/share?url=//redmoses.me/dockerizing-a-python-application/" title="Share on Google Plus"><span class="count"><i class="fa fa-google-plus-square"></i> +1</span></a></li>
   </ul>
 </div><!-- /.social-share -->
       </footer>
@@ -220,18 +161,18 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
     <div class="read-more">
   
     <div class="read-more-header">
-      <a href="//redmoses.me/transfer-existing-repositories-to-gitLab/" class="read-more-btn">Read More</a>
+      <a href="//redmoses.me/flask-and-shell/" class="read-more-btn">Read More</a>
     </div><!-- /.read-more-header -->
     <div class="read-more-content">
-      <h3><a href="//redmoses.me/dockerizing-a-python-application/" title="Dockerizing a Python Application">Dockerizing a Python Application</a></h3>
-      <p>Using docker to deploy a python application <a href="//redmoses.me/dockerizing-a-python-application/">Continue reading</a></p>
+      <h3><a href="//redmoses.me/flask-and-shell/" title="Flask and Shell">Flask and Shell</a></h3>
+      <p>Using Flask to run shell commands <a href="//redmoses.me/flask-and-shell/">Continue reading</a></p>
     </div><!-- /.read-more-content -->
   
   <div class="read-more-list">
     
       <div class="list-item">
-        <h4><a href="//redmoses.me/flask-and-shell/" title="Flask and Shell">Flask and Shell</a></h4>
-        <span>Published on December 20, 2015</span>
+        <h4><a href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" title="Deploy Ladon web service with Gunicorn">Deploy Ladon web service with Gunicorn</a></h4>
+        <span>Published on July 02, 2014</span>
       </div><!-- /.list-item -->
     
       <div class="list-item">
