@@ -2,26 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
 <title type="text">Red Moses</title>
 <generator uri="https://github.com/mojombo/jekyll">Jekyll</generator>
-<link rel="self" type="application/atom+xml" href="//redmoses.me/feed.xml" />
-<link rel="alternate" type="text/html" href="//redmoses.me" />
-<updated>2015-12-23T21:50:06+06:00</updated>
-<id>//redmoses.me/</id>
+<link rel="self" type="application/atom+xml" href="https://redmoses.me/feed.xml" />
+<link rel="alternate" type="text/html" href="https://redmoses.me" />
+<updated>2015-12-30T21:05:05+06:00</updated>
+<id>https://redmoses.me/</id>
 <author>
   <name>Red Moses</name>
-  <uri>//redmoses.me/</uri>
+  <uri>https://redmoses.me/</uri>
   <email>musa@redmoses.me</email>
 </author>
 
 
 <entry>
   <title type="html"><![CDATA[Flask and Shell]]></title>
- <link rel="alternate" type="text/html" href="//redmoses.me/flask-and-shell/" />
-  <id>//redmoses.me/flask-and-shell</id>
+ <link rel="alternate" type="text/html" href="https://redmoses.me/flask-and-shell/" />
+  <id>https://redmoses.me/flask-and-shell</id>
   <published>2015-12-20T13:28:11+06:00</published>
   <updated>2015-12-20T13:28:11+06:00</updated>
   <author>
     <name>Red Moses</name>
-    <uri>//redmoses.me</uri>
+    <uri>https://redmoses.me</uri>
     <email>musa@redmoses.me</email>
   </author>
   <content type="html">
@@ -251,20 +251,20 @@ the status updates should be available at &lt;a href=&quot;#&quot;&gt;http://SER
 &lt;p&gt;I hope you’ve enjoyed the post and it was of help to you. Please feel free 
 to leave any comments below.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;//redmoses.me/flask-and-shell/&quot;&gt;Flask and Shell&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on December 20, 2015.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;https://redmoses.me/flask-and-shell/&quot;&gt;Flask and Shell&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;https://redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on December 20, 2015.&lt;/p&gt;
   </content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Deploy Ladon web service with Gunicorn]]></title>
- <link rel="alternate" type="text/html" href="//redmoses.me/deploy-Ladon-web-service-with-gunicorn/" />
-  <id>//redmoses.me/deploy-Ladon-web-service-with-gunicorn</id>
+ <link rel="alternate" type="text/html" href="https://redmoses.me/deploy-Ladon-web-service-with-gunicorn/" />
+  <id>https://redmoses.me/deploy-Ladon-web-service-with-gunicorn</id>
   <published>2014-07-02T00:00:00+06:00</published>
   <updated>2014-07-02T00:00:00+06:00</updated>
   <author>
     <name>Red Moses</name>
-    <uri>//redmoses.me</uri>
+    <uri>https://redmoses.me</uri>
     <email>musa@redmoses.me</email>
   </author>
   <content type="html">
@@ -342,20 +342,20 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
 
 &lt;p&gt;To run the application just use “python server.py” and it would start running on port 5656. To access the application visit &lt;a href=&quot;http://localhost:5656&quot;&gt;http://localhost:5656&lt;/a&gt; from your browser.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;//redmoses.me/deploy-Ladon-web-service-with-gunicorn/&quot;&gt;Deploy Ladon web service with Gunicorn&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on July 02, 2014.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;https://redmoses.me/deploy-Ladon-web-service-with-gunicorn/&quot;&gt;Deploy Ladon web service with Gunicorn&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;https://redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on July 02, 2014.&lt;/p&gt;
   </content>
 </entry>
 
 
 <entry>
   <title type="html"><![CDATA[Transfer existing Repositories to GitLab]]></title>
- <link rel="alternate" type="text/html" href="//redmoses.me/transfer-existing-repositories-to-gitLab/" />
-  <id>//redmoses.me/transfer-existing-repositories-to-gitLab</id>
+ <link rel="alternate" type="text/html" href="https://redmoses.me/transfer-existing-repositories-to-gitLab/" />
+  <id>https://redmoses.me/transfer-existing-repositories-to-gitLab</id>
   <published>2014-01-06T00:00:00+06:00</published>
   <updated>2014-01-06T00:00:00+06:00</updated>
   <author>
     <name>Red Moses</name>
-    <uri>//redmoses.me</uri>
+    <uri>https://redmoses.me</uri>
     <email>musa@redmoses.me</email>
   </author>
   <content type="html">
@@ -393,7 +393,7 @@ sudo gitlab-rake gitlab:import:repos&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;When you run the above command GitLab is going to create a new group named $newdir (i.e., the directory’s name) and import the repositories perfectly. Now you can access GitLab with your admin account and access all the projects under the newly created group.&lt;/p&gt;
 
-    &lt;p&gt;&lt;a href=&quot;//redmoses.me/transfer-existing-repositories-to-gitLab/&quot;&gt;Transfer existing Repositories to GitLab&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;//redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on January 06, 2014.&lt;/p&gt;
+    &lt;p&gt;&lt;a href=&quot;https://redmoses.me/transfer-existing-repositories-to-gitLab/&quot;&gt;Transfer existing Repositories to GitLab&lt;/a&gt; was originally published by Red Moses at &lt;a href=&quot;https://redmoses.me&quot;&gt;Red Moses&lt;/a&gt; on January 06, 2014.&lt;/p&gt;
   </content>
 </entry>
 

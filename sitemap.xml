@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>//redmoses.me/flask-and-shell/</loc>
+    <loc>https://redmoses.me/flask-and-shell/</loc>
     <lastmod>2015-12-20T13:28:11+06:00</lastmod>
   </url>
   <url>
-    <loc>//redmoses.me/deploy-Ladon-web-service-with-gunicorn/</loc>
+    <loc>https://redmoses.me/deploy-Ladon-web-service-with-gunicorn/</loc>
     <lastmod>2014-07-02T00:00:00+06:00</lastmod>
   </url>
   <url>
-    <loc>//redmoses.me/transfer-existing-repositories-to-gitLab/</loc>
+    <loc>https://redmoses.me/transfer-existing-repositories-to-gitLab/</loc>
     <lastmod>2014-01-06T00:00:00+06:00</lastmod>
   </url>
   <url>
-    <loc>//redmoses.me/404.html</loc>
+    <loc>https://redmoses.me/404.html</loc>
   </url>
   <url>
-    <loc>//redmoses.me/posts/</loc>
+    <loc>https://redmoses.me/posts/</loc>
   </url>
   <url>
-    <loc>//redmoses.me/tags/</loc>
+    <loc>https://redmoses.me/tags/</loc>
   </url>
   <url>
-    <loc>//redmoses.me/</loc>
+    <loc>https://redmoses.me/</loc>
   </url>
   <url>
-    <loc>//redmoses.me/about/</loc>
+    <loc>https://redmoses.me/about/</loc>
   </url>
 </urlset>
