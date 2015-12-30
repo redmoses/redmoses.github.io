@@ -33,7 +33,7 @@
 
 
 
-<link rel="canonical" href="https://redmoses.me/">
+<link rel="canonical" href=" { { site.url } }{ { page.url } }"/>
 <link href="https://redmoses.me/feed.xml" type="application/atom+xml" rel="alternate" title="Red Moses Feed">
 
 <!-- http://t.co/dKP3o1e -->
@@ -225,18 +225,30 @@ from other git based issue tracking systems. <!-- more --></p>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="https://redmoses.me/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="https://redmoses.me/assets/js/scripts.min.js"></script>
+<script type="text/javascript">
+    var host = "redmoses.me";
+    if ((host == window.location.host) && (window.location.protocol != "https"))
+        window.location.protocol = "https";
+</script>
 
 
 <!-- Asynchronous Google Analytics snippet -->
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-46861903-1', 'auto');  
-  ga('require', 'linkid', 'linkid.js');
-  ga('send', 'pageview');
+    ga('create', 'UA-46861903-1', 'auto');
+    ga('require', 'linkid', 'linkid.js');
+    ga('send', 'pageview');
 </script>
 
 
